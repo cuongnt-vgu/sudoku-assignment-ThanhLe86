@@ -4,6 +4,21 @@
 
 #define BOARD_SIZE 9
 
+struct Position {
+    int row;
+    int col;
+    int box;
+    int posinsidebox;
+    int candidateValue;
+};
+
+struct Naked_pairs_Pos
+{
+    int candidateValues[2];
+    struct Position *position[2];
+};
+
+
 struct Cell_impl
 {
     int row_index;
@@ -11,7 +26,7 @@ struct Cell_impl
     int box_index;
     int num_candidates;
     int candidates[BOARD_SIZE];
-    int value; // solved or 0
+    int status; // solved or 0
     bool fixed;
 };
 
@@ -27,13 +42,15 @@ struct SudokuBoard_impl
     Cell **p_boxes[BOARD_SIZE]; // boxes pointers
     Cell *solved_cells[BOARD_SIZE *
                        BOARD_SIZE]; // solved cell pointers (maximum)
+    struct Position **hidden_single_positions;
+    struct Naked_pairs_Pos **N_Positions;
 };
 
 typedef struct SudokuBoard_impl SudokuBoard;
 
 void init_sudoku(SudokuBoard *p_board);
 void load_sudoku(SudokuBoard *p_board, char *input_text);
-bool apply_constraint(Cell **p_cells, int value);
+bool apply_constraint(Cell **p_cells, int status);
 bool is_in_list(Cell **p_array, int size, Cell *p);
 void print_candidate_num(SudokuBoard *p_board);
 void print_solution(SudokuBoard *p_board);

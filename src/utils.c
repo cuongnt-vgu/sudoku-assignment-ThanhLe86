@@ -102,7 +102,7 @@ void set_candidates(Cell *cell, int *candidates, int size)
 
     if (size == 1)
     {
-        cell->value = candidates[0];
+        cell->status = candidates[0];
     }
 }
 
@@ -141,7 +141,7 @@ void load_sudoku(SudokuBoard *p_board, char *textData)
     }
 }
 
-bool apply_constraint(Cell **p_cells, int value)
+bool apply_constraint(Cell **p_cells, int status)
 {
     bool ret = false;
 
@@ -149,9 +149,9 @@ bool apply_constraint(Cell **p_cells, int value)
     {
         if (p_cells[i]->num_candidates > 1)
         {
-            if (is_candidate(p_cells[i], value))
+            if (is_candidate(p_cells[i], status))
             {
-                unset_candidate(p_cells[i], value);
+                unset_candidate(p_cells[i], status);
                 ret = true;
             }
         }
@@ -166,11 +166,11 @@ bool show_possible(SudokuBoard *p_board, Cell **p_solved_cells, int counter)
     {
         Cell *solved_cell = p_solved_cells[i];
         ret |= apply_constraint(p_board->p_rows[solved_cell->row_index],
-                                solved_cell->value);
+                                solved_cell->status);
         ret |= apply_constraint(p_board->p_cols[solved_cell->col_index],
-                                solved_cell->value);
+                                solved_cell->status);
         ret |= apply_constraint(p_board->p_boxes[solved_cell->box_index],
-                                solved_cell->value);
+                                solved_cell->status);
     }
     return ret;
 }
@@ -198,7 +198,7 @@ int check_solved_cells(SudokuBoard *p_board, Cell ***p_solved_cells)
                             &p_board->data[i][j]))
             {
                 int *candidates = get_candidates(&p_board->data[i][j]);
-                p_board->data[i][j].value = candidates[0];
+                p_board->data[i][j].status = candidates[0];
                 free(candidates);
                 p_board->solved_cells[p_board->solved_counter++] =
                     &p_board->data[i][j];
