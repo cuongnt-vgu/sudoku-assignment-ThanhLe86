@@ -18,6 +18,12 @@ struct Naked_pairs_Pos
     struct Position *position[2];
 };
 
+struct Naked_tripl_Pos
+{
+    int candidateValues[3];
+    struct Position *position[3];
+};
+
 
 struct Cell_impl
 {
@@ -45,7 +51,10 @@ struct SudokuBoard_impl
                        BOARD_SIZE]; // solved cell pointers (maximum)
     struct Position **hidden_single_positions;
     struct Naked_pairs_Pos **N_Positions;
+    struct Naked_tripl_Pos **Nt_Positions;
 };
+
+
 
 typedef struct SudokuBoard_impl SudokuBoard;
 
