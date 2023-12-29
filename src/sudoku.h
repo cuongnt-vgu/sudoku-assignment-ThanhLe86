@@ -18,6 +18,13 @@ struct Naked_pairs_Pos
     struct Position *position[2];
 };
 
+struct hidden_pairs_position
+{
+    int hidden_pairs_candidates[2];
+    struct Position *position;
+};
+
+
 struct Naked_tripl_Pos
 {
     int candidateValues[3];
@@ -52,6 +59,7 @@ struct SudokuBoard_impl
     struct Position **hidden_single_positions;
     struct Naked_pairs_Pos **N_Positions;
     struct Naked_tripl_Pos **Nt_Positions;
+    struct hidden_pairs_position** hidden_pairs_positions;
 };
 
 
